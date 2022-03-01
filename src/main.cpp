@@ -1,7 +1,7 @@
 #include <iostream>
-#include "files/copy_file.hpp"
-#include "args/input_args.hpp"
-#include "logging/logger.hpp"
+#include "include/files/copy_file.hpp"
+#include "include/args/input_args.hpp"
+#include "include/logging/logger.hpp"
 
 void
 copyfiles(const char* from, const char* to)
