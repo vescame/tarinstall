@@ -1,6 +1,6 @@
 CXX:=g++
-CXXFLAGS:=-Wall -Wextra -Werror -Wpedantic -std=c++1z
-LDFLAGS:=-Lm
+CXXFLAGS:=-Wall -Wextra -Werror -Wpedantic -std=c++17
+LDFLAGS:=-Lm -lstdc++fs
 
 incdir=include
 srcdir=src
