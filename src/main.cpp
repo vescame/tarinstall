@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../include/files/copy.hpp"
+#include "../include/files/extract_tar.hpp"
 #include "../include/args/input_args.hpp"
 #include "../include/logging/logger.hpp"
 
@@ -12,7 +13,7 @@ main(int argc, char** argv)
   std::string from = args[0].c_str();
   std::string to = args[1].c_str();
 
-  files::copy_structure(from, to);
+  extract::begin(from, to);
 
   return 0;
 }
