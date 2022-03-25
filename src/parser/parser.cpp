@@ -1,8 +1,8 @@
 #include "../../include/parser/parser.hpp"
 #include <string>
 
-const str_ptr
+const sptr<std::string>
 parser::to_str(const char* str) {
-  return std::make_shared<std::string>(str);
+  return to_sptr<std::string>(str);
 }
 

@@ -4,13 +4,8 @@
 #include "../include/args/input_args.hpp"
 #include "../include/logging/logger.hpp"
 
-void
-copyfiles(const str_ptr from, const str_ptr to) { files::copy_structure(from, to); }
-
-
 auto make_copy = [] (const char* a1, const char* a2) {
-  auto to_str_ptr = [] (const char* str) { return std::make_shared<std::string>(str); };
-  copyfiles(to_str_ptr(a1), to_str_ptr(a2));
+  files::copy_structure(to_sptr(std::string(a1)), to_sptr(std::string(a2)));
 };
 
 int

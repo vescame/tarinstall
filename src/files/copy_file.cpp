@@ -3,7 +3,7 @@
 #include <filesystem>
 
 void
-files::copy(const str_ptr from, const str_ptr to)
+files::copy(const sptr<std::string> from, const sptr<std::string> to)
 {
   std::ifstream src(from->c_str(), std::ios::binary);
   std::ofstream dst(to->c_str(), std::ios::binary);
@@ -12,7 +12,7 @@ files::copy(const str_ptr from, const str_ptr to)
 }
 
 void
-files::copy_structure(const str_ptr from, const str_ptr to)
+files::copy_structure(const sptr<std::string> from, const sptr<std::string> to)
 {
   std::filesystem::path path_from = std::string(from->c_str());
   std::filesystem::path path_to = to->c_str();

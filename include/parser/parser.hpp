@@ -3,6 +3,6 @@
 #ifndef PARSER_HPP
 #define PARSER_HPP
 namespace parser {
-  const str_ptr to_str(const char* str);
+  const sptr<std::string> to_str(const char* str);
 }
 #endif
