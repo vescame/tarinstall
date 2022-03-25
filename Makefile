@@ -16,10 +16,10 @@ logging_obj=$(patsubst $(srcdir)/logging/%.cpp, $(libdir)/%.o, $(logging_src))
 files_src:=$(wildcard $(srcdir)/files/*.cpp)
 files_obj:=$(patsubst $(srcdir)/files/%.cpp, $(libdir)/%.o, $(files_src))
 
-parser_src:=$(wildcard $(srcdir)/parser/*.cpp)
-parser_obj:=$(patsubst $(srcdir)/parser/%.cpp, $(libdir)/%.o, $(parser_src))
+pointers_src:=$(wildcard $(srcdir)/pointers/*.cpp)
+pointers_obj:=$(patsubst $(srcdir)/pointers/%.cpp, $(libdir)/%.o, $(pointers_src))
 
-libs:=$(args_obj) $(logging_obj) $(files_obj) $(parser_obj)
+libs:=$(pointers_obj) $(args_obj) $(logging_obj) $(files_obj)
 
 main=$(srcdir)/main.cpp
 
@@ -56,8 +56,8 @@ $(logging_obj): $(logging_src)
 $(files_obj): $(files_src)
 	$(CXX) -c -o $@ $^ -Iinclude/files $(CXXFLAGS)
 
-$(parser_obj): $(parser_src)
-	$(CXX) -c -o $@ $^ -Iinclude/parser $(CXXFLAGS)
+$(pointers_obj): $(pointers_src)
+	$(CXX) -c -o $@ $^ -Iinclude/pointers $(CXXFLAGS)
 
 $(libdir):
 	$(mkdircmd) $@
