@@ -1,7 +1,7 @@
 #include <iostream>
-#include "include/files/copy_file.hpp"
-#include "include/args/input_args.hpp"
-#include "include/logging/logger.hpp"
+#include "../include/files/copy.hpp"
+#include "../include/args/input_args.hpp"
+#include "../include/logging/logger.hpp"
 
 int
 main(int argc, char** argv)
@@ -16,3 +16,4 @@ main(int argc, char** argv)
 
   return 0;
 }
+
