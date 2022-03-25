@@ -2,6 +2,7 @@ CXX:=g++
 CXXFLAGS:=-Wall -Wextra -Werror -Wpedantic -std=c++1z
 LDFLAGS:=-Lm
 
+incdir=include
 srcdir=src
 libdir=lib
 bindir=bin
@@ -15,7 +16,10 @@ logging_obj=$(patsubst $(srcdir)/logging/%.cpp, $(libdir)/%.o, $(logging_src))
 files_src:=$(wildcard $(srcdir)/files/*.cpp)
 files_obj:=$(patsubst $(srcdir)/files/%.cpp, $(libdir)/%.o, $(files_src))
 
-libs:=$(args_obj) $(logging_obj) $(files_obj)
+parser_src:=$(wildcard $(srcdir)/parser/*.cpp)
+parser_obj:=$(patsubst $(srcdir)/parser/%.cpp, $(libdir)/%.o, $(parser_src))
+
+libs:=$(args_obj) $(logging_obj) $(files_obj) $(parser_obj)
 
 main=$(srcdir)/main.cpp
 
@@ -44,13 +48,16 @@ $(target): $(main) $(libs)
 	$(CXX) -o $@ $^ $(LDFLAGS)
  
 $(args_obj): $(args_src)
-	$(CXX) -c -o $@ $^ -I$(dir $^) $(CXXFLAGS)
+	$(CXX) -c -o $@ $^ -Iinclude/args $(CXXFLAGS)
 
 $(logging_obj): $(logging_src)
-	$(CXX) -c -o $@ $^ -I$(dir $^) $(CXXFLAGS)
+	$(CXX) -c -o $@ $^ -Iinclude/logging $(CXXFLAGS)
 
 $(files_obj): $(files_src)
-	$(CXX) -c -o $@ $^ -I$(dir $^) $(CXXFLAGS)
+	$(CXX) -c -o $@ $^ -Iinclude/files $(CXXFLAGS)
+
+$(parser_obj): $(parser_src)
+	$(CXX) -c -o $@ $^ -Iinclude/parser $(CXXFLAGS)
 
 $(libdir):
 	$(mkdircmd) $@

@@ -1,4 +1,4 @@
-#include "../include/logging/logger.hpp"
+#include "../../include/logging/logger.hpp"
 #include <iostream>
 
 void
