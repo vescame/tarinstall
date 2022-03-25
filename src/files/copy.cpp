@@ -1,6 +1,6 @@
 #include "../../include/files/copy.hpp"
+#include <experimental/filesystem>
 #include <fstream>
-#include <filesystem>
 
 void
 files::copy(const std::string from, const std::string to)
@@ -14,8 +14,9 @@ files::copy(const std::string from, const std::string to)
 void
 files::copy_structure(const std::string from, const std::string to)
 {
-  std::filesystem::path path_from = std::string(from);
-  std::filesystem::path path_to = to;
-  std::filesystem::copy(path_from, path_to, std::filesystem::copy_options::recursive);
+  namespace efs = std::experimental::filesystem;
+  efs::path path_from = from;
+  efs::path path_to = to;
+  efs::copy(path_from, path_to, efs::copy_options::recursive);
 }
 
