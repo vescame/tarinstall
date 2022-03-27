@@ -1,7 +1,5 @@
 #include "../../include/files/extract_tar.hpp"
 #include "../../include/logging/logger.hpp"
-#include <archive.h>
-#include <archive_entry.h>
 
 void
 extract::begin(const std::string src, const std::string dst)
