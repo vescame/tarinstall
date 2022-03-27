@@ -52,7 +52,6 @@ extract::begin(const std::string src, const std::string dst)
     // TODO: check pathname before assign
     std::string new_name = dst + "/" + archive_entry_pathname(entry);
     archive_entry_set_pathname(entry, new_name.c_str());
-    logging::warn(archive_entry_pathname(entry));
 
     r = archive_write_header(dst_archive, entry);
     if (r < ARCHIVE_OK)
