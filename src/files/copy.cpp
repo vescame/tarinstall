@@ -1,5 +1,5 @@
 #include "../../include/files/copy.hpp"
-#include <experimental/filesystem>
+#include "../../include/logging/logger.hpp"
 #include <fstream>
 
 void
@@ -14,9 +14,23 @@ files::copy(const std::string from, const std::string to)
 void
 files::copy_structure(const std::string from, const std::string to)
 {
-  namespace efs = std::experimental::filesystem;
   efs::path path_from = from;
   efs::path path_to = to;
   efs::copy(path_from, path_to, efs::copy_options::recursive);
+}
+
+efs::path
+files::normalize_path(const std::string path) {
+  return efs::canonical(efs::path(path));
+}
+
+void
+files::exists_or_die(const efs::path& path) noexcept
+{
+  if (!efs::exists(path))
+  {
+    std::string message = "path " + std::string(path.c_str()) + " doesn't exists";
+    logging::error(message, 30);
+  }
 }
 
