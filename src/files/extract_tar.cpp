@@ -1,4 +1,5 @@
 #include "../../include/files/extract_tar.hpp"
+#include "../../include/files/copy.hpp"
 #include "../../include/logging/logger.hpp"
 
 void
@@ -10,22 +11,20 @@ extract::begin(const std::string src, const std::string dst)
   int flags;
   int r;
 
-  const char* filename = src.c_str();
-
   flags = ARCHIVE_EXTRACT_TIME;
   flags |= ARCHIVE_EXTRACT_PERM;
   flags |= ARCHIVE_EXTRACT_ACL;
   flags |= ARCHIVE_EXTRACT_FFLAGS;
 
   src_archive = archive_read_new();
-  archive_read_support_format_all(src_archive);
+  archive_read_support_format_tar(src_archive);
   archive_read_support_filter_xz(src_archive);
 
   dst_archive = archive_write_disk_new();
   archive_write_disk_set_options(dst_archive, flags);
   archive_write_disk_set_standard_lookup(dst_archive);
 
-  if (archive_read_open_filename(src_archive, filename, 1024))
+  if (archive_read_open_filename(src_archive, src.c_str(), 1024))
   {
     const std::string message = "failed to read source archive " + src +
       " with error: " + archive_error_string(src_archive);
@@ -44,14 +43,13 @@ extract::begin(const std::string src, const std::string dst)
       logging::error(message, 12);
     }
 
-    if (r < ARCHIVE_WARN)
-    {
-      logging::error(archive_error_string(src_archive), 13);
-    }
+    if (r < ARCHIVE_WARN) logging::error(archive_error_string(src_archive), 13);
 
-    // TODO: check pathname before assign
-    std::string new_name = dst + "/" + archive_entry_pathname(entry);
-    archive_entry_set_pathname(entry, new_name.c_str());
+    std::string canonical_dst = files::normalize_path(dst);
+    files::exists_or_die(canonical_dst);
+    efs::path entry_new_path = canonical_dst + "/" + archive_entry_pathname(entry);
+
+    archive_entry_set_pathname(entry, entry_new_path.c_str());
 
     r = archive_write_header(dst_archive, entry);
     if (r < ARCHIVE_OK)
@@ -70,10 +68,7 @@ extract::begin(const std::string src, const std::string dst)
         logging::error(message, 14);
       }
 
-      if (r < ARCHIVE_WARN)
-      {
-        logging::error(archive_error_string(src_archive), 15);
-      }
+      if (r < ARCHIVE_WARN) logging::error(archive_error_string(src_archive), 15);
     }
 
     r = archive_write_finish_entry(dst_archive);
